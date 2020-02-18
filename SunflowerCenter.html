@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Sunflower Centers in South Korea</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.51.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.51.0/mapbox-gl.css' rel='stylesheet' />
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href= 'btn.css' rel= 'stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+</head>
+<body>
+
+<style>
+    .mapboxgl-popup {
+        max-width: 400px;
+        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    }
+</style>
+
+<style>
+    #desc {
+        background: #fff;
+        position: absolute;
+        z-index: 1;
+        top: 10px;
+        left: 10px;
+        border-radius: 3px;
+        width: 490px;
+        border: 1px solid rgba(0,0,0,0.4);
+        font-family: 'Open Sans', sans-serif;
+    }
+    #menu {
+        background: #fff;
+        position: absolute;
+        z-index: 1;
+        top: 10px;
+        right: 10px;
+        border-radius: 3px;
+        width: 90px;
+        border: 1px solid rgba(0,0,0,0.4);
+        font-family: 'Open Sans', sans-serif;
+    }
+    #menu a {
+        font-size: 12px;
+        color: #404040;
+        display: block;
+        margin: 0;
+        padding: 10px;
+        padding: 10px;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(0,0,0,0.25);
+        text-align: center;
+    }
+
+    #menu a:last-child {
+        border: none;
+    }
+
+    #menu a:hover {
+        background-color: #f9f1ef; <--! hover when selected -->
+        color: #404040; <--! hover when selected text -->
+    }
+
+    #menu a.active {
+        background-color: #e3dfdf; <--! on load, unselected, unhovered -->
+        color: #ffffff; <--! on load, unselected, unhovered text -->
+    }
+
+    #menu a.active:hover {
+        background: #c0c0c0; <--! selected hover colour -->
+    }
+</style>
+
+<nav id="menu"></nav>
+<div id= "desc">
+  <div style= "margin: 10px 10px 10px 10px;">
+  <h4> South Korea's Sunflower Centers 🌻</h4>
+  <small> Toggle by layer (top right) to filter by center type.</small> <br>
+  <small> Click buttons below for ancillary information.</small>
+  <p>
+    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+      Emergency Center
+    </a>
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">
+      Children's Center
+    </button>
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample3" aria-expanded="false" aria-controls="collapseExample2">
+      Integrated Center
+    </button>
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample4" aria-expanded="false" aria-controls="collapseExample2">
+      About this Map
+    </button>
+  </p>
+  <div class="collapse" id="collapseExample">
+    <div class="card card-body">
+
+       The Emergency Sunflower Center (위기지원형) operates 24 hours a day, 365 days a year.
+       They offer support for sexual assault, domestic violence, prostitution and sex trafficking victims as well as their families.
+       Services are open to people of all ages and genders. Counseling services, medical treatment, legal support, and support with police investigations are offered.<p>
+
+    </div>
+  </div>
+  <div class="collapse" id="collapseExample2">
+    <div class="card card-body">
+
+ The Children's Sunflower Center (아동형) operates Monday to Friday, from 9am to 6pm.
+These centers are specifically catered to victims under the age of 18; Children, teenagers, as well as disabled persons of all ages are welcome at this center.
+The Children's Sunflower Center is open to people of all genders. They offer regular counseling, medical treatment, legal support, psychological evaluations and treatment, as well as investigation support. <p>
+
+    </div>
+  </div>
+  <div class="collapse" id="collapseExample3">
+    <div class="card card-body">
+
+    The Integrated Sunflower Center (통합형) operates 24 hours a day, 365 days a year. These centers are typically located within other buildings or facilities.
+    They offer support for sexual assault, domestic violence, prostitution and sex trafficking victims as well as their families.
+    Services are open to people of all ages and genders. They offer crisis and regular counseling, medical care, legal support, investigation support, and psychological evaluation and treatment.<p>
+
+    </div>
+  </div>
+  <div class="collapse" id="collapseExample4">
+    <div class="card card-body">
+      According to Statistics Korea, 29,357 sexual crimes (rape; indecent assult; illegal filming, also known as 몰카 - molka) were reported in 2016.
+      This number translates to 56.8 incidents per 100,000 people, occuring at an average rate of 3.4 per hour and 80.4 per day.
+      Rape cases have increased by 10% since 2015. <br>
+      The justice system in Korea is heavily protective of its own citizens and offers little for anyone else.
+      As a primarily monocultural society, Korea can be difficult for foreigners to navigate outside of the tourism context.
+      The Sunflower Center is a support center for victims of many kinds of sexual crimes.
+      They offer medical treatment, legal support, counseling services, as well as help with filing police investigations.
+      My goal was to organize all 37 Sunflower Centers in South Korea by their respective types. I've included the Korean names as well as their English counterparts, an address, as well as a telephone number.
+      Small pieces of information are available on the web, though they are distributed across many sites (each individual center often has its own, seperate url) and written in Korean. <br>
+      I hope my map facilitated your search for information. <br>
+      You are not alone.
+    </div>
+  </div>
+    </div>
+  </div>
+<div id="map"></div>
+
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoidGhkdGxkdXMiLCJhIjoiY2pwMzc1NTgyMGV5ODNxbG5vaW83YTZqNiJ9.G8IPBfnoXrqn_nskHT6sjQ';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/light-v9',
+    zoom: 6,
+    center: [125.983116, 36.580238]
+});
+
+
+map.on('load', function () {
+
+    map.addLayer({
+        "id": "Emergency Centers",
+        "type": "symbol",
+        "source": {
+            "type": "geojson",
+            "data": {
+                "type": "FeatureCollection",
+                "features": [
+                  {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [127.123438,37.496313]
+                    },
+                    "properties": {
+                        "description": "<strong>서울동부 해바라기센터 - National Police Hospital, 1st Floor</strong> <br> 123 Songi-ro, Garakbon-dong, Songpa-gu, Seoul, South Korea <br> 02-3400-1700",
+                        "icon": "doctor"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [126.975000,37.575000]
+                    },
+                    "properties": {
+                        "description": "<strong>서울남부 해바라기센터 - Boramae Medical Center, 2nd Floor</strong> <br> 20 Boramae-ro 5-gil, Sindaebang-dong, Dongjak-gu, Seoul, South Korea <br> 02-870-1700",
+                        "icon": "doctor"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [129.059188, 35.187188]
+                    },
+                    "properties": {
+                        "description": "<strong>부산동부 해바라기센터- Busan Medical Center</strong> <br> 359 World Cup-daero, Geoje 2(i)-dong, Yeonje-gu, Busan, South Korea <br> 051-501-9117",
+                        "icon": "doctor"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [128.540563, 35.859562]
+                    },
+                    "properties": {
+                        "description": "<strong>대구 해바라기센터 - Daegu Medical Center, 2nd Floor</strong> <br> 157 Pyeongni-ro, Sangjungi-dong, Seo-gu, Daegu, South Korea <br> 053-556-8117",
+                        "icon": "doctor"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [126.668562, 37.478563]
+                    },
+                    "properties": {
+                        "description": "<strong>인천동부 해바라기센터 - Incheon Medical Center</strong> <br> South Korea, Incheon, Dong-gu, Bangchuk-ro, 217 <br> 032-582-1170",
+                        "icon": "doctor"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [126.724937, 37.484688]
+                    },
+                    "properties": {
+                        "description": "<strong>인천북부 해바라기센터 - The Catholic University of Korea, Incheon St. Mary's Hospital</strong> <br> 56 Dongsu-ro, Bupyeong-dong, Bupyeong-gu, Incheon, South Korea <br> 032-280-5678",
+                        "icon": "doctor"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [126.875000, 35.175000]
+                    },
+                    "properties": {
+                        "description": "<strong>광주 해바라기센터 - Chosun University Hospital, 2nd Floor</strong> <br> 365 Pilmun-daero, Seonam-dong, Dong-gu, Gwangju, South Korea <br> 062-225-3117",
+                        "icon": "doctor"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [127.042438, 37.740938]
+                    },
+                    "properties": {
+                        "description": "<strong>경기북동부 해바라기센터 - Uijeongbu Medical Center, 3rd Floor</strong> <br> 142 Heungseon-ro, Uijeongbu-dong, Uijeongbu-si, Gyeonggi-do, South Korea <br> 031-874-3117",
+                        "icon": "doctor"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [126.807563, 37.333937]
+                    },
+                    "properties": {
+                        "description": "<strong>경기서부 해바라기센터 - Handoh Hospital, 3rd Floor</strong> <br> 103 Seonbugwangjang 1-ro, Seonbu-dong, Danwon-gu, Ansan-si, Gyeonggi-do, South Korea <br> 031-364-8117",
+                        "icon": "doctor"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [127.473187, 36.640187]
+                    },
+                    "properties": {
+                        "description": "<strong>충북 해바라기센터 - Cheongju Medical Center </strong> <br> 48 Heungdeok-ro, Sajik 1(il)-dong, Seowon-gu, Cheongju-si, Chungcheongbuk-do, South Korea <br> 043-272-7117",
+                        "icon": "doctor"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [127.172687, 36.841938]
+                    },
+                    "properties": {
+                        "description": "<strong>충남 해바라기센터 - Dankook University Hospital, 1st Floor</strong> <br> 201 Manghyang-ro, Sinan-dong, Dongnam-gu, Cheonan-si, Chungcheongnam-do, South Korea <br> 041-567-7117",
+                        "icon": "doctor"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [127.140563, 35.847188]
+                    },
+                    "properties": {
+                        "description": "<strong>전북 해바라기센터 - Chonbuk National University Hospital, 1st Floor</strong> <br> 20 Geonji-ro, Geumam 2(i)-dong, Deokjin-gu, Jeonju-si, Jeollabuk-do, South Korea <br> 063-278-0117",
+                        "icon": "doctor"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [127.542688, 34.96381]
+                    },
+                    "properties": {
+                        "description": "<strong>전남동부 해바라기센터 - Saint Carollo Hospital, Annex</strong> <br> 221 Sungwang-ro, Haeryong-myeon, Suncheon-si, Jeollanam-do, South Korea <br> 061-727-0117",
+                        "icon": "doctor"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [128.732938, 36.567812]
+                    },
+                    "properties": {
+                        "description": "<strong>경북북부 해바라기센터 - Andong Medical Center, B1</strong> <br> 55 Taesa 2-gil, Bungmun-dong, Andong, Gyeongsangbuk-do, South Korea <br> 054-843-1117",
+                        "icon": "doctor"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [128.118813, 36.135437]
+                    },
+                    "properties": {
+                        "description": "<strong>경북서부 해바라기센터 - Gimcheon Jeil Hospital, 7th Floor</strong> <br> 462-14 Sineum-dong, Gimcheon-si, Gyeongsangbuk-do, South Korea <br> 054-439-9600",
+                        "icon": "doctor"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [128.566438, 35.198813]
+                    },
+                    "properties": {
+                        "description": "<strong>경남 해바라기센터 - Masan Medical Center,2nd Floor</strong> <br> 231 3·15-Daero, Wanwol-dong, 마산합포구 창원시 Gyeongsangnam-do, South Korea <br> 055-245-8117",
+                        "icon": "doctor"
+                    }
+                }
+                ]
+            }
+        },
+        "layout": {
+           "icon-image": "{icon}-15",
+           "icon-allow-overlap": true
+       }
+    });
+});
+
+map.on('load', function () {
+
+    map.addLayer({
+        "id": "Childrens Centers",
+        "type": "symbol",
+        "source": {
+            "type": "geojson",
+            "data": {
+                "type": "FeatureCollection",
+                "features": [
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [126.937813, 37.552437]
+                    },
+                    "properties": {
+                        "description": "<strong>서울 아동해바라기센터 - Yonsei Medical Center, 7th Floor</strong> <br> 23 Baekbeom-ro, Daeheung-dong, Mapo-gu, Seoul, South Korea <br> 02-3274-1375",
+                        "icon": "playground"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [128.625000, 35.875000]
+                    },
+                    "properties": {
+                        "description": "<strong>대구 아동해바라기센터 - Kyungpook University Hospital, 5th Floor</strong> <br> 125 Dongdeok-ro, Samdeog-dong, Jung-gu, Daegu, South Korea <br> 053-421-1375",
+                        "icon": "playground"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [126.707437, 37.451188]
+                    },
+                    "properties": {
+                        "description": "<strong>인천 아동해바라기센터 - Gachon University Gil Medical Center</strong> <br> 1144-15 Guwol 1(il)-dong, Namdong-gu, Incheon, South Korea <br> 032-423-1375",
+                        "icon": "playground"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [126.920687, 35.143563]
+                    },
+                    "properties": {
+                        "description": "<strong>광주 아동해바라기센터 - Well Clinic, 4th Floor</strong> <br> 112-1 Nam-dong, Dong-gu, Kwangju, South Korea <br> 062-232-1375",
+                        "icon": "playground"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [127.126188, 37.405687]
+                    },
+                    "properties": {
+                        "description": "<strong>경기 아동해바라기센터 - Hanhwa Building, 5th Floor</strong> <br> 471 Pangyo-ro, Yatap-dong, Bundang-gu, Seongnam-si, Gyeonggi-do, South Korea <br> 031-708-1375",
+                        "icon": "playground"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [127.928562, 36.977563]
+                    },
+                    "properties": {
+                        "description": "<strong>충북 아동해바라기센터 - Bosung Building, 4th Floor</strong> <br> 616-2 Gyohyeon-dong, Chungju-si, Chungcheongbuk-do, South Korea <br> 043-857-1375",
+                        "icon": "playground"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [127.150812, 35.846688]
+                    },
+                    "properties": {
+                        "description": "<strong>전북 아동해바라기센터 - Bank Building, 2nd Floor</strong> <br> 1573-1 Inhudong 2(i)-ga, Deokjin-gu, Jeonju-si, Jeollabuk-do, South Korea <br> 063-246-1375",
+                        "icon": "playground"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [128.095563, 35.176563]
+                    },
+                    "properties": {
+                        "description": "<strong>경남 아동해바라기센터 - Gyeongsang University Hospital, B1</strong> <br> 90 Chiram-dong, Jinju-si, Gyeongsangnam-do, South Korea <br> 055-754-1375",
+                        "icon": "playground"
+                    }
+                }
+                ]
+            }
+        },
+        "layout": {
+           "icon-image": "{icon}-15",
+           "icon-allow-overlap": true
+       }
+    });
+});
+
+map.on('load', function () {
+
+    map.addLayer({
+        "id": "Integrated Centers",
+        "type": "symbol",
+        "source": {
+            "type": "geojson",
+            "data": {
+                "type": "FeatureCollection",
+                "features": [
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [127.002813, 37.582937]
+                    },
+                    "properties": {
+                        "description": "<strong>서울 통합해바라기센터 - Dongsung Building, 2nd Floor</strong> <br> 1-49 Dongsung-dong, Jongno-gu, Seoul, South Korea <br> 02-3672-0365",
+                        "icon": "hospital"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [127.065313, 37.587937]
+                    },
+                    "properties": {
+                        "description": "<strong>서울북부 통합해바라기센터 - Sahmyook Medical Center</strong> <br> 82 Mangu-ro, Hwigyeong 1(il)-dong, Dongdaemun-gu, Seoul, South Korea <br> 02-3390-4145",
+                        "icon": "hospital"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [127.005938, 37.567437]
+                    },
+                    "properties": {
+                        "description": "<strong>서울중부 통합해바라기센터 - National Medical Center</strong> <br> 245 Eulji-ro, Gwanghui-dong, Jung-gu, Seoul, South Korea <br> 02-2266-8276",
+                        "icon": "hospital"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [129.019563, 35.101687]
+                    },
+                    "properties": {
+                        "description": "<strong>부산 통합해바라기센터 - Medical ICT Convergence Center, 6th Floor</strong> <br> 179 Gudeok-ro Seo-gu, Busan, South Korea <br> 051-244-1375",
+                        "icon": "hospital"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [127.416187, 36.316812]
+                    },
+                    "properties": {
+                        "description": "<strong>대전 통합해바라기센터 - Chungnam University Hospital, 2nd Floor</strong> <br> 282 Munhwa-ro, Daesa-dong, Jung-gu, Daejeon, South Korea <br> 042-280-8436",
+                        "icon": "hospital"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [129.323062, 35.546188]
+                    },
+                    "properties": {
+                        "description": "<strong>울산 통합해바라기센터 - Ulsan Hospital, 8th Floor</strong> <br> 13 Wolpyeong-ro 171beon-gil, Sinjeong-dong, Nam-gu, Ulsan, South Korea, South Korea <br> 052-265-1375",
+                        "icon": "hospital"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [127.045313, 37.278563]
+                    },
+                    "properties": {
+                        "description": "<strong>경기남부 통합해바라기센터 - Ajou University Hospital, 2nd Floor</strong> <br> 185 Woldeukeom-ro, Woncheon-dong Yeongtong-gu, Suwon, Gyeonggi-do South Korea <br> 031-215-1117",
+                        "icon": "hospital"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [126.833188, 37.635312]
+                    },
+                    "properties": {
+                        "description": "<strong>경기북서부 통합해바라기센터 - Myongji Hospital Woori Life Plaza, 5th Floor, 501</strong> <br> 966-3 Hwajeong-dong, Deokyang-gu, Goyang-si, Gyeonggi-do, South Korea <br> 031-816-13755",
+                        "icon": "hospital"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [127.745063, 37.875312]
+                    },
+                    "properties": {
+                        "description": "<strong>강원서부 통합해바라기센터 - Gangwon National University Hospital, Children's Hospital,B2</strong> <br> 156 Baengnyeong-ro, Hyoja 3(sam)-dong, Chuncheon-si, Gangwon-do, South Korea <br> 033-252-1375",
+                        "icon": "hospital"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [128.907062, 37.774312]
+                    },
+                    "properties": {
+                        "description": "<strong>강원동부 통합해바라기센터 - Dongin Hospital, Annex</strong> <br> 42 Gangneung-daero 419beon-gil, Ponam-dong, Gangneung-si, Gangwon-do, South Korea <br> 033-652-9843",
+                        "icon": "hospital"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [126.421062, 34.821187]
+                    },
+                    "properties": {
+                        "description": "<strong>전남서부 통합해바라기센터 - Mokpo Central Hospital, Annex, 5th Floor</strong> <br> 623 Yeongsan-ro, Sang-dong, Mokpo-si, Jeollanam-do, South Korea <br> 061-285-1375",
+                        "icon": "hospital"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [129.339313, 36.014813]
+                    },
+                    "properties": {
+                        "description": "<strong>경북동부 통합해바라기센터 - Pohang St. Mary's Hospital, Luga-gwan,B3</strong> <br> 17 Daejamdong-gil, Daejam-dong, Nam-gu, Pohang-si, Gyeongsangbuk-do, South Korea <br> 054-278-1375",
+                        "icon": "hospital"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [126.485188, 33.489812]
+                    },
+                    "properties": {
+                        "description": "<strong>제주 통합해바라기센터 - Halla Hospital, Annex, 3rd Floor</strong> <br> 65 Doryeong-ro, Yeon-dong, Jeju-si, Jeju-do, South Korea <br> 064-748-5117",
+                        "icon": "hospital"
+                    }
+                }
+                ]
+            }
+        },
+        "layout": {
+           "icon-image": "{icon}-15",
+           "icon-allow-overlap": true
+       }
+    });
+});
+
+
+
+// When a click event occurs on a feature in the places layer, open a popup at the
+ // location of the feature, with description HTML from its properties.
+ map.on('click', 'Emergency Centers', function (e) {
+     var coordinates = e.features[0].geometry.coordinates.slice();
+     var description = e.features[0].properties.description;
+
+     // Ensure that if the map is zoomed out such that multiple
+     // copies of the feature are visible, the popup appears
+     // over the copy being pointed to.
+     while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+     }
+
+     new mapboxgl.Popup()
+         .setLngLat(coordinates)
+         .setHTML(description)
+         .addTo(map);
+ });
+
+ // Change the cursor to a pointer when the mouse is over the places layer.
+ map.on('mouseenter', 'Emergency Centers', function () {
+     map.getCanvas().style.cursor = 'pointer';
+ });
+
+ // Change it back to a pointer when it leaves.
+ map.on('mouseleave', 'Emergency Centers', function () {
+     map.getCanvas().style.cursor = '';
+ });
+
+ // When a click event occurs on a feature in the places layer, open a popup at the
+  // location of the feature, with description HTML from its properties.
+  map.on('click', 'Childrens Centers', function (e) {
+      var coordinates = e.features[0].geometry.coordinates.slice();
+      var description = e.features[0].properties.description;
+
+      // Ensure that if the map is zoomed out such that multiple
+      // copies of the feature are visible, the popup appears
+      // over the copy being pointed to.
+      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+      }
+
+      new mapboxgl.Popup()
+          .setLngLat(coordinates)
+          .setHTML(description)
+          .addTo(map);
+  });
+
+  // Change the cursor to a pointer when the mouse is over the places layer.
+  map.on('mouseenter', 'Childrens Centers', function () {
+      map.getCanvas().style.cursor = 'pointer';
+  });
+
+  // Change it back to a pointer when it leaves.
+  map.on('mouseleave', 'Childrens Centers', function () {
+      map.getCanvas().style.cursor = '';
+  });
+
+  // When a click event occurs on a feature in the places layer, open a popup at the
+   // location of the feature, with description HTML from its properties.
+   map.on('click', 'Integrated Centers', function (e) {
+       var coordinates = e.features[0].geometry.coordinates.slice();
+       var description = e.features[0].properties.description;
+
+       // Ensure that if the map is zoomed out such that multiple
+       // copies of the feature are visible, the popup appears
+       // over the copy being pointed to.
+       while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+           coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+       }
+
+       new mapboxgl.Popup()
+           .setLngLat(coordinates)
+           .setHTML(description)
+           .addTo(map);
+   });
+
+   // Change the cursor to a pointer when the mouse is over the places layer.
+   map.on('mouseenter', 'Integrated Centers', function () {
+       map.getCanvas().style.cursor = 'pointer';
+   });
+
+   // Change it back to a pointer when it leaves.
+   map.on('mouseleave', 'Integrated Centers', function () {
+       map.getCanvas().style.cursor = '';
+   });
+
+
+ var toggleableLayerIds = [ 'Emergency Centers', 'Childrens Centers', 'Integrated Centers'];
+
+ for (var i = 0; i < toggleableLayerIds.length; i++) {
+     var id = toggleableLayerIds[i];
+
+     var link = document.createElement('a');
+     link.href = '#';
+     link.className = 'active';
+     link.textContent = id;
+
+     link.onclick = function (e) {
+         var clickedLayer = this.textContent;
+         e.preventDefault();
+         e.stopPropagation();
+
+         var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+
+         if (visibility === 'visible') {
+             map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+             this.className = '';
+         } else {
+             this.className = 'active';
+             map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+         }
+     };
+
+     var layers = document.getElementById('menu');
+     layers.appendChild(link);
+ }
+
+</script>
+
+</body>
+</html>
