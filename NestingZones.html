@@ -48,7 +48,7 @@
         top: 60px;
         right: 10px;
         border-radius: 3px;
-        width: 50px;
+        width: 200px;
         border: 1px solid rgba(0,0,0,0.4);
         font-family: 'Open Sans', sans-serif;
     }
@@ -133,7 +133,7 @@ mapboxgl: mapboxgl
 map.on('load', function () {
 
     map.addLayer({
-        'id': 'A1',
+        'id': 'A1: 1 February - 11 August',
         'type': 'fill',
         'source': {
             'type': 'geojson',
@@ -24671,7 +24671,7 @@ map.on('load', function () {
 map.on('load', function () {
 
     map.addLayer({
-        'id': 'A2',
+        'id': 'A2: 17 February - 10 August',
         'type': 'fill',
         'source': {
             'type': 'geojson',
@@ -60994,7 +60994,7 @@ map.on('load', function () {
 map.on('load', function () {
 
     map.addLayer({
-        'id': 'A3',
+        'id': 'A3: 10 February - 9 August',
         'type': 'fill',
         'source': {
             'type': 'geojson',
@@ -74450,7 +74450,7 @@ map.on('load', function () {
 map.on('load', function () {
 
     map.addLayer({
-        'id': 'A4',
+        'id': 'A4: 7 March - 13 August',
         'type': 'fill',
         'source': {
             'type': 'geojson',
@@ -91593,7 +91593,7 @@ map.on('load', function () {
 map.on('load', function () {
 
     map.addLayer({
-        'id': 'A5',
+        'id': 'A5: 11 March - 3 August',
         'type': 'fill',
         'source': {
             'type': 'geojson',
@@ -98386,7 +98386,7 @@ map.on('load', function () {
 map.on('load', function () {
 
     map.addLayer({
-        'id': 'B5',
+        'id': 'B5: 12 March - 11 August',
         'type': 'fill',
         'source': {
             'type': 'geojson',
@@ -102963,7 +102963,7 @@ map.on('load', function () {
 map.on('load', function () {
 
     map.addLayer({
-        'id': 'B6',
+        'id': 'B6: 17 March  - 13 August',
         'type': 'fill',
         'source': {
             'type': 'geojson',
@@ -120577,7 +120577,7 @@ map.on('load', function () {
 map.on('load', function () {
 
     map.addLayer({
-        'id': 'B7',
+        'id': 'B7: 20 March - 23 August',
         'type': 'fill',
         'source': {
             'type': 'geojson',
@@ -128353,55 +128353,7 @@ map.on('load', function () {
 });
 
 
-
-/*map.on('load', function() {
-  map.addSource('8', {
-    type: 'geojson',
-    data: "https://github.com/thdtldus/nestingzones/blob/master/nestingzones.geojson"
-  });
-  map.addLayer({
-    'id': 'B7',
-    'type': 'fill',
-    'source': '8',
-    'paint': {
-      'fill-colour':'#fccde3',
-      'fill-opacity': 0.5
-    }
-  });
-});*/
-
-// When a click event occurs on a feature in the places layer, open a popup at the
- // location of the feature, with description HTML from its properties.
- map.on('click', 'NestingZones', function (e) {
-     var coordinates = e.features[0].geometry.coordinates.slice();
-     var description = e.features[0].properties.description;
-
-     // Ensure that if the map is zoomed out such that multiple
-     // copies of the feature are visible, the popup appears
-     // over the copy being pointed to.
-     while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-     }
-
-     new mapboxgl.Popup()
-         .setLngLat(coordinates)
-         .setHTML(description)
-         .addTo(map);
- });
-
-
- // Change the cursor to a pointer when the mouse is over the places layer.
- map.on('mouseenter', 'NestingZones', function () {
-     map.getCanvas().style.cursor = 'pointer';
- });
-
- // Change it back to a pointer when it leaves.
- map.on('mouseleave', 'NestingZones', function () {
-     map.getCanvas().style.cursor = '';
- });
-
-
- var toggleableLayerIds = [ 'A1', 'A2', 'A3', 'A4', 'A5', 'B5', 'B6', 'B7'];
+ var toggleableLayerIds = [ 'A1: 1 February - 11 August', 'A2: 17 February - 10 August', 'A3: 10 February - 9 August', 'A4: 7 March - 13 August', 'A5: 11 March - 3 August', 'B5: 12 March  - 11 August', 'B6: 17 March - 13 August', 'B7: 20 March - 23 August'];
 
  for (var i = 0; i < toggleableLayerIds.length; i++) {
      var id = toggleableLayerIds[i];
