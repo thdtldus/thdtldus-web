@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Mobilization Times</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href= 'btn.css' rel= 'stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+</head>
+<body>
+
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.css" type="text/css">
+
+<style>
+    .mapboxgl-popup {
+        max-width: 400px;
+        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    }
+</style>
+
+<style>
+    #desc {
+        background: #fff;
+        position: absolute;
+        z-index: 1;
+        top: 10px;
+        left: 10px;
+        border-radius: 3px;
+        width: 430px;
+        border: 1px solid rgba(0,0,0,0.4);
+        font-family: 'Open Sans', sans-serif;
+    }
+    #menu {
+        background: #fff;
+        position: absolute;
+        z-index: 1;
+        top: 60px;
+        right: 10px;
+        border-radius: 3px;
+        width: 100px;
+        border: 1px solid rgba(0,0,0,0.4);
+        font-family: 'Open Sans', sans-serif;
+    }
+    #menu a {
+        font-size: 13px;
+        color: #404040;
+        display: block;
+        margin: 0;
+        padding: 0;
+        padding: 10px;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(0,0,0,0.25);
+        text-align: center;
+    }
+
+    #menu a:last-child {
+        border: none;
+    }
+
+    #menu a:hover {
+        background-color: #f9f1ef; <--! hover when selected -->
+        color: #404040; <--! hover when selected text -->
+    }
+
+    #menu a.active {
+        background-color: #e3dfdf; <--! on load, unselected, unhovered -->
+        color: #ffffff; <--! on load, unselected, unhovered text -->
+    }
+
+    #menu a.active:hover {
+        background: #c0c0c0; <--! selected hover colour -->
+    }
+</style>
+
+<nav id="menu"></nav>
+<div id= "desc">
+  <div style= "margin: 10px 10px 10px 10px;">
+  <h4> Mobilization Times</h4>
+  <p>
+  Please bill your mobilization time based on the region you are located in.You can enter an address in the search bar to generate a location pin.
+</p>
+  </div>
+</div>
+<div id="map"></div>
+
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoidGhkdGxkdXMiLCJhIjoiY2pwMzc1NTgyMGV5ODNxbG5vaW83YTZqNiJ9.G8IPBfnoXrqn_nskHT6sjQ';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/light-v9',
+    zoom: 9,
+    center: [-122.645815, 49.20065675115159]
+});
+
+map.addControl(
+new MapboxGeocoder({
+accessToken: mapboxgl.accessToken,
+mapboxgl: mapboxgl
+})
+);
+
+map.on('load', function () {
+
+    map.addLayer({
+        'id': '0.5 hour',
+        'type': 'fill',
+        'source': {
+            'type': 'geojson',
+            'data': {
+                'type': 'Feature',
+                'geometry': {
+                    'type': 'Polygon',
+                    'coordinates':[
+                    [
+                    [
+              -123.211669921875,
+              49.34257265141462
+            ],
+            [
+              -123.24874877929686,
+              49.28258808041184
+            ],
+            [
+              -123.26385498046874,
+              49.27362889433306
+            ],
+            [
+              -123.26797485351561,
+              49.26332381833573
+            ],
+            [
+              -123.23982238769531,
+              49.23105053355255
+            ],
+            [
+              -123.21441650390625,
+              49.21759710517596
+            ],
+            [
+              -123.20411682128905,
+              49.21131758507162
+            ],
+            [
+              -123.18969726562499,
+              49.212663263677996
+            ],
+            [
+              -123.16154479980469,
+              49.210869017396
+            ],
+            [
+              -123.12995910644531,
+              49.19741009449332
+            ],
+            [
+              -123.1079864501953,
+              49.203691381047534
+            ],
+            [
+              -123.09837341308594,
+              49.2032427441791
+            ],
+            [
+              -123.07708740234374,
+              49.208626117966396
+            ],
+            [
+              -123.06335449218749,
+              49.2032427441791
+            ],
+            [
+              -122.9871368408203,
+              49.19920482920086
+            ],
+            [
+              -122.92808532714844,
+              49.196512702717364
+            ],
+            [
+              -122.90199279785156,
+              49.200999498783034
+            ],
+            [
+              -122.89306640624999,
+              49.20952328994859
+            ],
+            [
+              -122.89031982421874,
+              49.224772722794825
+            ],
+            [
+              -122.89787292480469,
+              49.23643087933337
+            ],
+            [
+              -122.90542602539061,
+              49.259290811366604
+            ],
+            [
+              -122.9315185546875,
+              49.28841067865023
+            ],
+            [
+              -122.94937133789062,
+              49.30363576187125
+            ],
+            [
+              -122.97340393066408,
+              49.32467445685924
+            ],
+            [
+              -123.00498962402344,
+              49.33272944976965
+            ],
+            [
+              -123.1182861328125,
+              49.33183451563825
+            ],
+            [
+              -123.13064575195312,
+              49.338546125046875
+            ],
+            [
+              -123.14437866210939,
+              49.338993533134854
+            ],
+            [
+              -123.1574249267578,
+              49.34480946815268
+            ],
+            [
+              -123.17733764648438,
+              49.34480946815268
+            ],
+            [
+              -123.19381713867188,
+              49.34794084076264
+            ],
+            [
+              -123.211669921875,
+              49.34257265141462
+            ]
+          ]
+       ]
+     }
+   }
+ },
+        'layout': {},
+        'paint': {
+            'fill-color': '#540ff5',
+            'fill-opacity': 0.3
+        }
+    });
+    map.addLayer({
+        'id': '1 hour',
+        'type': 'fill',
+        'source': {
+            'type': 'geojson',
+            'data': {
+                'type': 'Feature',
+                'geometry': {
+                    'type': 'Polygon',
+                    'coordinates':[
+                    [
+                    [-123.20480346679686,49.210420445650286],
+            [-123.21578979492188, 49.19067925930702],
+            [-123.21578979492188, 49.172725887825585
+            ],
+            [
+              -123.20892333984375,
+              49.15566415187021
+            ],
+            [
+              -123.21029663085938,
+              49.14219020768315
+            ],
+            [
+              -123.23776245117189,
+              49.13859653703879
+            ],
+            [
+              -123.23776245117189,
+              49.11882669045988
+            ],
+            [
+              -123.22952270507812,
+              49.106241774469055
+            ],
+            [
+              -123.21990966796874,
+              49.095452162534826
+            ],
+            [
+              -123.20343017578124,
+              49.095452162534826
+            ],
+            [
+              -123.19656372070312,
+              49.09275439303259
+            ],
+            [
+              -123.18832397460936,
+              49.08286131716694
+            ],
+            [
+              -123.18145751953125,
+              49.07206662261101
+            ],
+            [
+              -123.16635131835938,
+              49.06486885623368
+            ],
+            [
+              -123.145751953125,
+              49.05677012268616
+            ],
+            [
+              -123.13613891601562,
+              49.05047019529436
+            ],
+            [
+              -123.12515258789061,
+              49.0477699820096
+            ],
+            [
+              -123.09631347656249,
+              49.0441694695161
+            ],
+            [
+              -123.06472778320311,
+              49.04506962208049
+            ],
+            [
+              -123.04550170898436,
+              49.049570140493145
+            ],
+            [
+              -123.02215576171875,
+              49.06126958202894
+            ],
+            [
+              -122.991943359375,
+              49.06216942501905
+            ],
+            [
+              -122.96722412109374,
+              49.0711669588361
+            ],
+            [
+              -122.93838500976561,
+              49.0738659012854
+            ],
+            [
+              -122.9150390625,
+              49.08196184888935
+            ],
+            [
+              -122.89031982421874,
+              49.0900564769189
+            ],
+            [
+              -122.86697387695312,
+              49.08555962425418
+            ],
+            [
+              -122.86285400390624,
+              49.074765516185
+            ],
+            [
+              -122.86697387695312,
+              49.06576863405361
+            ],
+            [
+              -122.882080078125,
+              49.063969062121316
+            ],
+            [
+              -122.88894653320311,
+              49.060369722746124
+            ],
+            [
+              -122.88894653320311,
+              49.0441694695161
+            ],
+            [
+              -122.882080078125,
+              49.032466003388876
+            ],
+            [
+              -122.87109375,
+              49.023461463214126
+            ],
+            [
+              -122.86010742187499,
+              49.021660359632115
+            ],
+            [
+              -122.84225463867186,
+              49.021660359632115
+            ],
+            [
+              -122.80792236328125,
+              49.018958582039474
+            ],
+            [
+              -122.79144287109375,
+              49.01625665778159
+            ],
+            [
+              -122.77633666992188,
+              49.00995159747052
+            ],
+            [
+              -122.76672363281249,
+              49.00724918431423
+            ],
+            [
+              -122.66372680664062,
+              49.04056869631684
+            ],
+            [
+              -122.51815795898436,
+              49.06351915895547
+            ],
+            [
+              -122.49275207519531,
+              49.10129682684041
+            ],
+            [
+              -122.49137878417969,
+              49.16419575467542
+            ],
+            [
+              -122.46803283691405,
+              49.17901030871519
+            ],
+            [
+              -122.46940612792967,
+              49.2140089056539
+            ],
+            [
+              -122.4591064453125,
+              49.22028808387943
+            ],
+            [
+              -122.45532989501953,
+              49.237775874213035
+            ],
+            [
+              -122.4920654296875,
+              49.24270720875383
+            ],
+            [
+              -122.5356674194336,
+              49.242483067866125
+            ],
+            [
+              -122.5476837158203,
+              49.243155487477225
+            ],
+            [
+              -122.6081085205078,
+              49.263771909876155
+            ],
+            [
+              -122.64244079589842,
+              49.278108690805674
+            ],
+            [
+              -122.66029357910158,
+              49.296471602658066
+            ],
+            [
+              -122.6953125,
+              49.31930372940956
+            ],
+            [
+              -122.73101806640625,
+              49.30587434804734
+            ],
+            [
+              -122.76878356933592,
+              49.31840855121949
+            ],
+            [
+              -122.77084350585938,
+              49.33809871289156
+            ],
+            [
+              -122.77976989746092,
+              49.338993533134854
+            ],
+            [
+              -122.79830932617186,
+              49.32377937629472
+            ],
+            [
+              -122.8106689453125,
+              49.326912087086605
+            ],
+            [
+              -122.81822204589844,
+              49.34033573299466
+            ],
+            [
+              -122.85598754882812,
+              49.33675645202128
+            ],
+            [
+              -122.91572570800781,
+              49.295576009528354
+            ],
+            [
+              -122.9315185546875,
+              49.287962810889
+            ],
+            [
+              -122.90542602539061,
+              49.258842679135945
+            ],
+            [
+              -122.8985595703125,
+              49.2359825395677
+            ],
+            [
+              -122.89100646972655,
+              49.224772722794825
+            ],
+            [
+              -122.89443969726564,
+              49.20952328994859
+            ],
+            [
+              -122.9047393798828,
+              49.19965350270188
+            ],
+            [
+              -122.92945861816406,
+              49.196512702717364
+            ],
+            [
+              -122.96035766601562,
+              49.19785878427575
+            ],
+            [
+              -122.99057006835938,
+              49.200102172132574
+            ],
+            [
+              -123.01322937011719,
+              49.200550837492955
+            ],
+            [
+              -123.03726196289062,
+              49.200999498783034
+            ],
+            [
+              -123.06472778320311,
+              49.2032427441791
+            ],
+            [
+              -123.07708740234374,
+              49.207728929703656
+            ],
+            [
+              -123.09837341308594,
+              49.20279410324042
+            ],
+            [
+              -123.10935974121092,
+              49.20279410324042
+            ],
+            [
+              -123.13064575195312,
+              49.19696140064054
+            ],
+            [
+              -123.1622314453125,
+              49.210869017396
+            ],
+            [
+              -123.19107055664064,
+              49.21176614867714
+            ],
+            [
+              -123.20480346679686,
+              49.210420445650286
+            ]
+          ]
+       ]
+     }
+   }
+ },
+        'layout': {},
+        'paint': {
+            'fill-color': '#7b1455',
+            'fill-opacity': 0.3
+        }
+    });
+    map.addLayer({
+        'id': '1.5 hour',
+        'type': 'fill',
+        'source': {
+            'type': 'geojson',
+            'data': {
+                'type': 'Feature',
+                'geometry': {
+                    'type': 'Polygon',
+                    'coordinates':[
+                    [
+                    [
+              -122.45086669921875,
+              49.238224197700525
+            ],
+            [
+              -122.45498657226561,
+              49.23755171094321
+            ],
+            [
+              -122.4587631225586,
+              49.22028808387943
+            ],
+            [
+              -122.46940612792967,
+              49.2140089056539
+            ],
+            [
+              -122.46768951416016,
+              49.17923473756174
+            ],
+            [
+              -122.49103546142578,
+              49.16419575467542
+            ],
+            [
+              -122.4920654296875,
+              49.10129682684041
+            ],
+            [
+              -122.51815795898436,
+              49.06329420584512
+            ],
+            [
+              -122.6633834838867,
+              49.04011858133582
+            ],
+            [
+              -122.7663803100586,
+              49.00719288248046
+            ],
+            [
+              -122.76123046875,
+              49.001843917978526
+            ],
+            [
+              -122.14599609375001,
+              49.00454662448422
+            ],
+            [
+              -122.09793090820311,
+              49.03966846228119
+            ],
+            [
+              -122.01965332031249,
+              49.09725059408649
+            ],
+            [
+              -122.02651977539062,
+              49.163746759588975
+            ],
+            [
+              -122.04437255859375,
+              49.207728929703656
+            ],
+            [
+              -122.15423583984375,
+              49.208626117966396
+            ],
+            [
+              -122.20779418945311,
+              49.22925695473048
+            ],
+            [
+              -122.35885620117186,
+              49.2355341957325
+            ],
+            [
+              -122.45086669921875,
+              49.238224197700525
+            ]
+          ]
+       ]
+     }
+   }
+ },
+        'layout': {},
+        'paint': {
+            'fill-color': '#ffbc05',
+            'fill-opacity': 0.3
+        }
+    });
+  });
+
+
+
+ var toggleableLayerIds = [ '0.5 hour', '1 hour', '1.5 hour'];
+
+ for (var i = 0; i < toggleableLayerIds.length; i++) {
+     var id = toggleableLayerIds[i];
+
+     var link = document.createElement('a');
+     link.href = '#';
+     link.className = 'active';
+     link.textContent = id;
+
+     link.onclick = function (e) {
+         var clickedLayer = this.textContent;
+         e.preventDefault();
+         e.stopPropagation();
+
+         var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+
+         if (visibility === 'visible') {
+             map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+             this.className = '';
+         } else {
+             this.className = 'active';
+             map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+         }
+     };
+
+     var layers = document.getElementById('menu');
+     layers.appendChild(link);
+ }
+
+</script>
+
+</body>
+</html>
